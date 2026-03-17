@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>StyleMart — Online Shopping</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{--pu:#6c47ff;--pu2:#8b5cf6;--pk:#f43f5e;--bg:#f8f8fc;--wh:#fff;--tx:#1a1a2e;--mu:#6b7280;--bd:#e5e7eb;--sh:0 2px 8px rgba(0,0,0,.07);}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+button{font-family:'Inter',sans-serif;cursor:pointer;border:none;background:none;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--pu);border-radius:4px;}
+
+.nav{position:sticky;top:0;z-index:300;background:var(--wh);border-bottom:1px solid var(--bd);box-shadow:0 2px 10px rgba(0,0,0,.06);}
+.nav-in{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:14px 24px;}
+.logo{font-size:1.3rem;font-weight:800;color:var(--tx);flex-shrink:0;}
+.logo span{color:var(--pu);}
+.nsrch{flex:1;max-width:520px;display:flex;align-items:center;gap:8px;background:#f3f4f6;border:1.5px solid var(--bd);border-radius:10px;padding:10px 16px;transition:border-color .2s,background .2s;}
+.nsrch:focus-within{border-color:var(--pu);background:var(--wh);box-shadow:0 0 0 3px rgba(108,71,255,.08);}
+.nsrch input{flex:1;border:none;outline:none;background:transparent;font-family:'Inter',sans-serif;font-size:.88rem;color:var(--tx);}
+.nsrch input::placeholder{color:var(--mu);}
+.nav-r{display:flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0;}
+.nbtn{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:8px;font-size:.82rem;font-weight:600;color:var(--mu);transition:all .15s;}
+.nbtn:hover{background:var(--bg);color:var(--tx);}
+.nbtn.login{background:var(--pu);color:#fff;box-shadow:0 2px 10px rgba(108,71,255,.35);}
+.nbtn.login:hover{background:var(--pu2);}
+.cartbtn{display:flex;align-items:center;gap:8px;padding:9px 18px;border-radius:8px;background:var(--wh);border:1.5px solid var(--bd);font-size:.85rem;font-weight:700;color:var(--tx);transition:all .2s;}
+.cartbtn:hover{border-color:var(--pu);color:var(--pu);}
+.cartbtn.hi{background:var(--pu);color:#fff;border-color:var(--pu);}
+.cbc{background:var(--wh);color:var(--pu);min-width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:800;padding:0 3px;}
+.cartbtn.hi .cbc{background:rgba(255,255,255,.25);color:#fff;}
+.cbc.bump{animation:cbump .25s ease;}
+@keyframes cbump{0%,100%{transform:scale(1)}50%{transform:scale(1.5)}}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);padding:0 24px;overflow:hidden;position:relative;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 70% 50%,rgba(108,71,255,.25),transparent 60%);}
+.hero-in{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:40px;min-height:360px;position:relative;z-index:1;}
+.hero-l{padding:50px 0;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(108,71,255,.2);border:1px solid rgba(108,71,255,.4);color:#a78bfa;padding:5px 14px;border-radius:20px;font-size:.72rem;font-weight:700;margin-bottom:18px;}
+.hero-l h1{font-size:clamp(2rem,4vw,3.2rem);font-weight:800;color:#fff;line-height:1.1;margin-bottom:14px;}
+.hero-l h1 span{color:#a78bfa;}
+.hero-l p{font-size:.88rem;color:rgba(255,255,255,.6);margin-bottom:26px;line-height:1.7;}
+.hero-btns{display:flex;gap:10px;}
+.hbtn1{padding:13px 30px;background:var(--pu);color:#fff;border-radius:10px;font-size:.88rem;font-weight:700;box-shadow:0 4px 20px rgba(108,71,255,.45);transition:all .2s;}
+.hbtn1:hover{background:var(--pu2);transform:translateY(-2px);}
+.hbtn2{padding:12px 30px;background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.25);border-radius:10px;font-size:.88rem;font-weight:600;transition:all .2s;}
+.hbtn2:hover{background:rgba(255,255,255,.1);}
+/* Hero product art collage */
+.hero-r{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:10px;padding:30px 0;}
+.hero-art-item{border-radius:14px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.4);transition:transform .3s;}
+.hero-art-item:hover{transform:scale(1.03);}
+.hero-art-item:nth-child(1){grid-row:span 2;}
+
+.obar{background:var(--pu);overflow:hidden;}
+.obar-in{display:flex;overflow-x:auto;scrollbar-width:none;}
+.obar-in::-webkit-scrollbar{display:none;}
+.ob{flex-shrink:0;padding:10px 22px;border-right:1px solid rgba(255,255,255,.15);font-size:.77rem;font-weight:600;color:rgba(255,255,255,.9);white-space:nowrap;cursor:pointer;transition:background .15s;}
+.ob:hover{background:rgba(255,255,255,.1);}
+.ob span{color:#fde68a;font-weight:700;}
+
+.main{max-width:1280px;margin:0 auto;padding:28px 24px 60px;}
+.sh{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px;}
+.st{font-size:1.2rem;font-weight:800;}
+.sa{font-size:.82rem;font-weight:600;color:var(--pu);cursor:pointer;}
+
+/* CATEGORY PILLS */
+.cats{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin-bottom:34px;}
+.cats::-webkit-scrollbar{display:none;}
+.cp{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;padding:4px;transition:transform .2s;}
+.cp:hover{transform:translateY(-4px);}
+.cp-art{width:72px;height:72px;border-radius:14px;overflow:hidden;border:2.5px solid var(--bd);box-shadow:var(--sh);transition:border-color .2s,box-shadow .2s;}
+.cp.active .cp-art{border-color:var(--pu);box-shadow:0 4px 14px rgba(108,71,255,.3);}
+.cp-lbl{font-size:.7rem;font-weight:600;color:var(--mu);}
+.cp.active .cp-lbl{color:var(--pu);}
+
+.fbar{display:flex;gap:8px;margin-bottom:20px;overflow-x:auto;scrollbar-width:none;}
+.fbar::-webkit-scrollbar{display:none;}
+.fchip{flex-shrink:0;display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:20px;border:1.5px solid var(--bd);background:var(--wh);font-size:.78rem;font-weight:600;color:var(--mu);cursor:pointer;transition:all .2s;white-space:nowrap;}
+.fchip:hover{border-color:var(--pu);color:var(--pu);}
+.fchip.active{background:var(--pu);border-color:var(--pu);color:#fff;}
+
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;}
+
+/* PRODUCT CARD */
+.pc{background:var(--wh);border-radius:16px;overflow:hidden;box-shadow:var(--sh);display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s;animation:cani .35s ease both;position:relative;}
+@keyframes cani{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.pc:hover{transform:translateY(-6px);box-shadow:0 14px 35px rgba(0,0,0,.1);}
+.pc.hidden{display:none;}
+.pc-new{position:absolute;top:10px;left:10px;z-index:2;background:#10b981;color:#fff;font-size:.6rem;font-weight:700;padding:3px 8px;border-radius:6px;}
+.pc-sale{position:absolute;top:10px;left:10px;z-index:2;background:#f43f5e;color:#fff;font-size:.6rem;font-weight:700;padding:3px 8px;border-radius:6px;}
+.pc-wish{position:absolute;top:10px;right:10px;z-index:2;width:32px;height:32px;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:all .2s;}
+.pc-wish:hover{transform:scale(1.15);}
+.pc-wish.on{background:#fff0f3;}
+
+/* CSS ART IMAGE */
+.pc-art{height:220px;overflow:hidden;position:relative;transition:transform .4s;}
+.pc:hover .pc-art{transform:scale(1.04);}
+.pc-over{position:absolute;inset:0;background:rgba(26,26,46,.7);backdrop-filter:blur(2px);display:flex;align-items:flex-end;justify-content:center;padding:16px;opacity:0;transition:opacity .3s;}
+.pc:hover .pc-over{opacity:1;}
+.poc-btn{width:100%;padding:10px;background:var(--pu);color:#fff;border-radius:8px;font-size:.8rem;font-weight:700;transform:translateY(8px);transition:all .3s;box-shadow:0 4px 16px rgba(108,71,255,.5);}
+.pc:hover .poc-btn{transform:none;}
+.poc-btn:hover{background:var(--pu2);}
+
+.pc-body{padding:12px 14px 14px;flex:1;display:flex;flex-direction:column;}
+.pc-cat{font-size:.62rem;font-weight:700;color:var(--pu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;}
+.pc-name{font-size:.9rem;font-weight:700;color:var(--tx);margin-bottom:4px;line-height:1.3;transition:color .2s;}
+.pc:hover .pc-name{color:var(--pu);}
+.pc-desc{font-size:.72rem;color:var(--mu);line-height:1.5;margin-bottom:8px;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.pc-stars{display:flex;align-items:center;gap:4px;margin-bottom:8px;font-size:.7rem;color:var(--mu);}
+.pc-stars .s{color:#f59e0b;}
+.pc-price-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.pc-price{font-size:1.05rem;font-weight:800;color:var(--tx);}
+.pc-old{font-size:.78rem;color:var(--mu);text-decoration:line-through;}
+.pc-off{font-size:.72rem;font-weight:700;color:#10b981;}
+.pc-add{width:100%;padding:10px;background:transparent;border:1.5px solid var(--pu);color:var(--pu);border-radius:8px;font-size:.82rem;font-weight:700;transition:all .2s;position:relative;overflow:hidden;}
+.pc-add::before{content:'';position:absolute;inset:0;background:var(--pu);transform:scaleX(0);transform-origin:left;transition:transform .3s;z-index:0;}
+.pc-add:hover::before{transform:scaleX(1);}
+.pc-add:hover{color:#fff;}
+.pc-add span{position:relative;z-index:1;}
+.pc-qty{display:none;align-items:center;justify-content:space-between;background:var(--pu);border-radius:8px;overflow:hidden;}
+.pc-qty.show{display:flex;}
+.pqb{flex:1;height:36px;background:transparent;color:#fff;font-size:1rem;font-weight:700;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+.pqb:hover{background:rgba(255,255,255,.15);}
+.pqn{font-size:.88rem;font-weight:800;color:#fff;min-width:24px;text-align:center;}
+
+/* CART */
+.cov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;opacity:0;visibility:hidden;transition:all .3s;}
+.cov.open{opacity:1;visibility:visible;}
+.cdr{position:fixed;top:0;right:0;bottom:0;width:400px;max-width:95vw;background:var(--wh);z-index:501;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);box-shadow:-8px 0 40px rgba(0,0,0,.12);}
+.cdr.open{transform:translateX(0);}
+.cdh{padding:20px 22px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;}
+.cdh h3{font-size:1.05rem;font-weight:800;}
+.cdhs{font-size:.72rem;color:var(--mu);margin-top:2px;}
+.cdcl{width:32px;height:32px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--mu);transition:all .2s;}
+.cdcl:hover{background:var(--bd);}
+.cdb{flex:1;overflow-y:auto;padding:16px 22px;}
+.cdb::-webkit-scrollbar{width:3px;}
+.cdb::-webkit-scrollbar-thumb{background:var(--pu);}
+.cde{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:14px;text-align:center;color:var(--mu);}
+.cde .cei{font-size:3.5rem;}
+.cde h4{font-size:1rem;font-weight:700;color:var(--tx);}
+.cde-btn{padding:10px 24px;background:var(--pu);color:#fff;border-radius:8px;font-size:.85rem;font-weight:700;}
+.cit{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--bd);animation:cianim .25s ease both;}
+@keyframes cianim{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.cit-art{width:62px;height:62px;border-radius:10px;overflow:hidden;flex-shrink:0;background:var(--bg);}
+.cit-info{flex:1;}
+.cit-n{font-size:.85rem;font-weight:700;margin-bottom:2px;}
+.cit-c{font-size:.68rem;color:var(--mu);}
+.cit-p{font-size:.84rem;font-weight:700;color:var(--pu);margin-top:4px;}
+.cit-qty{display:flex;align-items:center;background:var(--pu);border-radius:8px;overflow:hidden;flex-shrink:0;}
+.cqb{width:30px;height:30px;background:transparent;color:#fff;font-size:1rem;font-weight:700;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+.cqb:hover{background:rgba(255,255,255,.15);}
+.cqn{font-size:.8rem;font-weight:800;color:#fff;min-width:22px;text-align:center;}
+.cdf{border-top:1px solid var(--bd);padding:16px 22px;}
+.cbr{display:flex;justify-content:space-between;font-size:.79rem;color:var(--mu);margin-bottom:7px;}
+.cbr.tot{font-size:.94rem;font-weight:800;color:var(--tx);padding-top:10px;border-top:1px solid var(--bd);margin-top:4px;}
+.cbr.tot .am{color:var(--pu);}
+.bpo{width:100%;margin-top:14px;padding:15px;background:var(--pu);color:#fff;border-radius:12px;font-size:.95rem;font-weight:700;box-shadow:0 4px 16px rgba(108,71,255,.35);transition:all .25s;display:flex;align-items:center;justify-content:space-between;}
+.bpo:hover{background:var(--pu2);transform:translateY(-2px);box-shadow:0 8px 26px rgba(108,71,255,.5);}
+
+/* MODAL */
+.mov{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:600;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all .3s;}
+.mov.open{opacity:1;visibility:visible;}
+.mb{background:var(--wh);border-radius:20px;padding:44px 38px;max-width:400px;width:92%;text-align:center;transform:scale(.85) translateY(20px);transition:all .35s cubic-bezier(.4,0,.2,1);box-shadow:0 24px 60px rgba(0,0,0,.2);}
+.mov.open .mb{transform:none;}
+.mico{font-size:4rem;margin-bottom:14px;animation:ibounce .6s .1s ease both;}
+@keyframes ibounce{0%{transform:scale(0)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
+.mttl{font-size:1.5rem;font-weight:800;margin-bottom:8px;}
+.msub{font-size:.84rem;color:var(--mu);line-height:1.6;margin-bottom:20px;}
+.mid{display:inline-block;padding:7px 18px;background:#f3f0ff;border:1.5px dashed rgba(108,71,255,.4);border-radius:8px;font-size:.82rem;font-weight:700;color:var(--pu);margin-bottom:24px;}
+.mok{padding:13px 36px;background:var(--pu);color:#fff;border-radius:10px;font-size:.88rem;font-weight:700;transition:all .2s;}
+.mok:hover{background:var(--pu2);transform:translateY(-2px);}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--tx);color:#fff;padding:11px 22px;border-radius:25px;font-size:.82rem;font-weight:600;box-shadow:0 8px 30px rgba(0,0,0,.2);opacity:0;transition:all .3s;z-index:700;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+footer{background:var(--tx);color:rgba(255,255,255,.7);padding:44px 24px 24px;}
+.fin{max-width:1280px;margin:0 auto;}
+.ftop{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:28px;}
+.flogo{font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:8px;}
+.flogo span{color:#a78bfa;}
+.fdesc{font-size:.76rem;line-height:1.75;color:rgba(255,255,255,.4);margin-bottom:14px;}
+.fsoc{display:flex;gap:8px;}
+.fsb{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.4);font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.fsb:hover{background:var(--pu);border-color:var(--pu);color:#fff;}
+.fcol h4{font-size:.75rem;font-weight:700;color:#fff;margin-bottom:12px;text-transform:uppercase;letter-spacing:.08em;}
+.fcol ul{list-style:none;}
+.fcol li{margin-bottom:8px;}
+.fcol a{font-size:.76rem;color:rgba(255,255,255,.4);transition:color .2s;}
+.fcol a:hover{color:#a78bfa;}
+.fbot{border-top:1px solid rgba(255,255,255,.08);padding-top:18px;display:flex;justify-content:space-between;font-size:.72rem;color:rgba(255,255,255,.25);flex-wrap:wrap;gap:8px;}
+
+.rv{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease;}
+.rv.on{opacity:1;transform:none;}
+@media(max-width:900px){
+  .nav-in{padding:10px 16px;}.nbtn:not(.login){display:none;}
+  .hero-in{grid-template-columns:1fr;}.hero-r{display:none;}
+  .main{padding:18px 16px 50px;}
+  .pg{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}
+  .ftop{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:480px){.pg{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<div class="cov" id="cov" onclick="closeCart()"></div>
+<div class="cdr" id="cdr">
+  <div class="cdh"><div><h3>🛍️ My Bag</h3><div class="cdhs" id="cdhs">Your bag is empty</div></div><button class="cdcl" onclick="closeCart()">✕</button></div>
+  <div class="cdb" id="cdb"><div class="cde"><div class="cei">🛍️</div><h4>Your bag is empty</h4><p>Discover products above</p><button class="cde-btn" onclick="closeCart()">Start Shopping</button></div></div>
+  <div class="cdf" id="cdf" style="display:none">
+    <div class="cbr"><span>Subtotal</span><span id="cst">₹0</span></div>
+    <div class="cbr"><span>Shipping</span><span>₹99</span></div>
+    <div class="cbr tot"><span>Total</span><span class="am" id="ctot">₹0</span></div>
+    <button class="bpo" onclick="placeOrder()">
+      <div><div style="font-size:.7rem;opacity:.8" id="bpoi">0 items</div><div>Checkout</div></div>
+      <span style="font-size:.82rem;opacity:.9" id="bpot">₹0 →</span>
+    </button>
+  </div>
+</div>
+<div class="mov" id="mov">
+  <div class="mb">
+    <div class="mico">🎉</div>
+    <div class="mttl">Order Placed!</div>
+    <p class="msub">Your order is confirmed. Estimated delivery in <strong>3–5 business days</strong></p>
+    <div class="mid" id="moid">ORDER #SM00001</div>
+    <button class="mok" onclick="closeMod()">Continue Shopping</button>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-in">
+    <div class="logo">Style<span>Mart</span></div>
+    <div class="nsrch"><span style="color:var(--mu)">🔍</span><input type="text" placeholder="Search products, brands and more..." id="msrch" oninput="doSearch(this.value)"/></div>
+    <div class="nav-r">
+      <button class="nbtn">🏷️ Offers</button>
+      <button class="nbtn login">Sign In</button>
+      <button class="cartbtn" id="cartbtn" onclick="openCart()"><span>🛍️</span><span>Bag</span><span class="cbc" id="cbc">0</span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-in">
+    <div class="hero-l">
+      <div class="hero-badge">✨ New Season Collection 2024</div>
+      <h1>Fashion &amp; Lifestyle<br><span>Delivered Fast</span></h1>
+      <p>Shop the latest trends in electronics, fashion, home essentials and more. Free delivery on orders over ₹999.</p>
+      <div class="hero-btns">
+        <button class="hbtn1" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">Shop Now →</button>
+        <button class="hbtn2" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">View Deals</button>
+      </div>
+    </div>
+    <div class="hero-r" id="hero-r"></div>
+  </div>
+</div>
+
+<div class="obar"><div class="obar-in">
+  <div class="ob">🔥 Up to 60% off — <span>SALE60</span></div>
+  <div class="ob">🚚 Free shipping over ₹999</div>
+  <div class="ob">🎁 First order 20% off — <span>FIRST20</span></div>
+  <div class="ob">↩️ Easy 30-day returns</div>
+</div></div>
+
+<main class="main" id="shop">
+<div class="sh rv"><div class="st">Shop by Category</div></div>
+<div class="cats rv" id="cats">
+  <div class="cp active" data-cat="all" onclick="filterCat(this,'all')"><div class="cp-art" id="cat-art-all"></div><span class="cp-lbl">All</span></div>
+  <div class="cp" data-cat="electronics" onclick="filterCat(this,'electronics')"><div class="cp-art" id="cat-art-electronics"></div><span class="cp-lbl">Electronics</span></div>
+  <div class="cp" data-cat="fashion" onclick="filterCat(this,'fashion')"><div class="cp-art" id="cat-art-fashion"></div><span class="cp-lbl">Fashion</span></div>
+  <div class="cp" data-cat="accessories" onclick="filterCat(this,'accessories')"><div class="cp-art" id="cat-art-accessories"></div><span class="cp-lbl">Accessories</span></div>
+  <div class="cp" data-cat="home" onclick="filterCat(this,'home')"><div class="cp-art" id="cat-art-home"></div><span class="cp-lbl">Home</span></div>
+  <div class="cp" data-cat="sports" onclick="filterCat(this,'sports')"><div class="cp-art" id="cat-art-sports"></div><span class="cp-lbl">Sports</span></div>
+  <div class="cp" data-cat="books" onclick="filterCat(this,'books')"><div class="cp-art" id="cat-art-books"></div><span class="cp-lbl">Books</span></div>
+</div>
+<div class="sh rv"><div class="st" id="ptitle">All Products</div><div class="sa" id="pcount">20 products</div></div>
+<div class="fbar rv">
+  <div class="fchip active" onclick="toggleF(this,'all')">🔥 All</div>
+  <div class="fchip" onclick="toggleF(this,'new')">✨ New Arrivals</div>
+  <div class="fchip" onclick="toggleF(this,'sale')">🏷️ On Sale</div>
+  <div class="fchip" onclick="toggleF(this,'under999')">💰 Under ₹999</div>
+  <div class="fchip" onclick="toggleF(this,'rated')">⭐ Top Rated</div>
+</div>
+<div class="pg" id="pg"></div>
+</main>
+
+<footer><div class="fin">
+  <div class="ftop">
+    <div><div class="flogo">Style<span>Mart</span></div><p class="fdesc">Premium products, genuine quality. Your one-stop destination for fashion, electronics and more.</p><div class="fsoc"><a class="fsb" href="#">📘</a><a class="fsb" href="#">📸</a><a class="fsb" href="#">🐦</a><a class="fsb" href="#">💼</a></div></div>
+    <div class="fcol"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Blog</a></li></ul></div>
+    <div class="fcol"><h4>Support</h4><ul><li><a href="#">Help Center</a></li><li><a href="#">Returns</a></li><li><a href="#">Track Order</a></li></ul></div>
+    <div class="fcol"><h4>Contact</h4><ul><li><a href="#">📍 Chennai, TN</a></li><li><a href="#">📞 1800-222-3344</a></li><li><a href="#">✉️ care@stylemart.in</a></li></ul></div>
+  </div>
+  <div class="fbot"><span>© 2024 StyleMart Retail Pvt. Ltd.</span><span>Made with ❤️ in Chennai</span></div>
+</div></footer>
+
+<script>
+/* ═══════════════════════════════════════
+   CSS ART ENGINE — product illustrations
+═══════════════════════════════════════ */
+const PART = {
+  earbuds: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="eb-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e8eaf6"/><stop offset="100%" stop-color="#c5cae9"/></linearGradient></defs>
+    <rect width="${w}" height="${h}" fill="url(#eb-bg)"/>
+    <rect x="${w*0.28}" y="${h*0.55}" width="${w*0.44}" height="${h*0.32}" rx="${w*0.06}" fill="#37474f"/>
+    <rect x="${w*0.3}" y="${h*0.57}" width="${w*0.4}" height="${h*0.28}" rx="${w*0.05}" fill="#455a64"/>
+    <circle cx="${w*0.36}" cy="${h*0.48}" r="${w*0.12}" fill="#263238"/>
+    <circle cx="${w*0.36}" cy="${h*0.48}" r="${w*0.09}" fill="#37474f"/>
+    <circle cx="${w*0.36}" cy="${h*0.48}" r="${w*0.05}" fill="#546e7a"/>
+    <circle cx="${w*0.36}" cy="${h*0.48}" r="${w*0.02}" fill="#90a4ae"/>
+    <circle cx="${w*0.64}" cy="${h*0.48}" r="${w*0.12}" fill="#263238"/>
+    <circle cx="${w*0.64}" cy="${h*0.48}" r="${w*0.09}" fill="#37474f"/>
+    <circle cx="${w*0.64}" cy="${h*0.48}" r="${w*0.05}" fill="#546e7a"/>
+    <circle cx="${w*0.64}" cy="${h*0.48}" r="${w*0.02}" fill="#90a4ae"/>
+    <rect x="${w*0.38}" y="${h*0.38}" width="${w*0.04}" height="${h*0.2}" rx="${w*0.015}" fill="#546e7a"/>
+    <rect x="${w*0.58}" y="${h*0.38}" width="${w*0.04}" height="${h*0.2}" rx="${w*0.015}" fill="#546e7a"/>
+    <ellipse cx="${w*0.5}" cy="${h*0.22}" rx="${w*0.12}" ry="${h*0.1}" fill="#3949ab" opacity="0.6"/>
+    <text x="${w/2}" y="${h*0.25}" text-anchor="middle" font-size="${w*0.08}" fill="#fff" font-family="Arial" font-weight="bold" opacity="0.8">TWS</text>
+  </svg>`,
+
+  smartwatch: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="sw-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e3f2fd"/><stop offset="100%" stop-color="#bbdefb"/></linearGradient></defs>
+    <rect width="${w}" height="${h}" fill="url(#sw-bg)"/>
+    <rect x="${w*0.42}" y="${h*0.06}" width="${w*0.16}" height="${h*0.18}" rx="${w*0.03}" fill="#37474f"/>
+    <rect x="${w*0.42}" y="${h*0.76}" width="${w*0.16}" height="${h*0.18}" rx="${w*0.03}" fill="#37474f"/>
+    <rect x="${w*0.28}" y="${h*0.2}" width="${w*0.44}" height="${h*0.6}" rx="${w*0.08}" fill="#212121"/>
+    <rect x="${w*0.3}" y="${h*0.22}" width="${w*0.4}" height="${h*0.56}" rx="${w*0.07}" fill="#1565c0"/>
+    <rect x="${w*0.32}" y="${h*0.27}" width="${w*0.36}" height="${h*0.46}" rx="${w*0.05}" fill="#0d47a1"/>
+    <text x="${w/2}" y="${h*0.44}" text-anchor="middle" font-size="${w*0.12}" fill="#fff" font-family="Arial" font-weight="bold">10:30</text>
+    <text x="${w/2}" y="${h*0.54}" text-anchor="middle" font-size="${w*0.07}" fill="#90caf9" font-family="Arial">MON 24</text>
+    <rect x="${w*0.34}" y="${h*0.6}" width="${w*0.12}" height="${h*0.06}" rx="${w*0.02}" fill="#1976d2"/>
+    <rect x="${w*0.48}" y="${h*0.6}" width="${w*0.06}" height="${h*0.06}" rx="${w*0.02}" fill="#f44336"/>
+    <rect x="${w*0.56}" y="${h*0.6}" width="${w*0.1}" height="${h*0.06}" rx="${w*0.02}" fill="#4caf50"/>
+    <rect x="${w*0.74}" y="${h*0.35}" width="${w*0.04}" height="${h*0.2}" rx="${w*0.015}" fill="#37474f"/>
+  </svg>`,
+
+  headphones: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="hp-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fce4ec"/><stop offset="100%" stop-color="#f8bbd9"/></linearGradient></defs>
+    <rect width="${w}" height="${h}" fill="url(#hp-bg)"/>
+    <path d="M${w*0.2} ${h*0.55} Q${w*0.2} ${h*0.2} ${w*0.5} ${h*0.2} Q${w*0.8} ${h*0.2} ${w*0.8} ${h*0.55}" fill="none" stroke="#c2185b" stroke-width="${w*0.04}" stroke-linecap="round"/>
+    <rect x="${w*0.1}" y="${h*0.52}" width="${w*0.2}" height="${h*0.28}" rx="${w*0.06}" fill="#ad1457"/>
+    <rect x="${w*0.12}" y="${h*0.54}" width="${w*0.16}" height="${h*0.24}" rx="${w*0.05}" fill="#e91e8c"/>
+    <circle cx="${w*0.2}" cy="${h*0.66}" r="${w*0.05}" fill="#f48fb1"/>
+    <rect x="${w*0.7}" y="${h*0.52}" width="${w*0.2}" height="${h*0.28}" rx="${w*0.06}" fill="#ad1457"/>
+    <rect x="${w*0.72}" y="${h*0.54}" width="${w*0.16}" height="${h*0.24}" rx="${w*0.05}" fill="#e91e8c"/>
+    <circle cx="${w*0.8}" cy="${h*0.66}" r="${w*0.05}" fill="#f48fb1"/>
+  </svg>`,
+
+  keyboard: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="kb-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f3e5f5"/><stop offset="100%" stop-color="#e1bee7"/></linearGradient></defs>
+    <rect width="${w}" height="${h}" fill="url(#kb-bg)"/>
+    <rect x="${w*0.08}" y="${h*0.3}" width="${w*0.84}" height="${h*0.45}" rx="${w*0.04}" fill="#1a1a2e"/>
+    <rect x="${w*0.1}" y="${h*0.32}" width="${w*0.8}" height="${h*0.41}" rx="${w*0.03}" fill="#212121"/>
+    ${[0,1,2,3].map(row=>[...Array(row===3?4:row===0?13:12)].map((_,col)=>{
+      const totalW=row===3?4:row===0?13:12;
+      const kw=w*0.055,kh=h*0.07;
+      const x=w*0.13+col*(kw+w*0.008);
+      const y=h*0.36+row*(kh+h*0.02);
+      const colors=['#7c4dff','#651fff','#6200ea','#4a148c'];
+      return `<rect x="${x}" y="${y}" width="${kw}" height="${kh}" rx="${w*0.015}" fill="${colors[Math.floor(Math.random()*4)]}" opacity="0.9"/>`;
+    }).join('')).join('')}
+    <rect x="${w*0.3}" y="${h*0.66}" width="${w*0.4}" height="${h*0.07}" rx="${w*0.015}" fill="#7c4dff" opacity="0.9"/>
+  </svg>`,
+
+  sneakers: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="sn-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e8f5e9"/><stop offset="100%" stop-color="#c8e6c9"/></linearGradient></defs>
+    <rect width="${w}" height="${h}" fill="url(#sn-bg)"/>
+    <ellipse cx="${w*0.5}" cy="${h*0.72}" rx="${w*0.42}" ry="${h*0.1}" fill="#bdbdbd" opacity="0.5"/>
+    <path d="M${w*0.08} ${h*0.68} Q${w*0.1} ${h*0.55} ${w*0.25} ${h*0.5} L${w*0.65} ${h*0.42} Q${w*0.82} ${h*0.4} ${w*0.9} ${h*0.52} L${w*0.92} ${h*0.68} Z" fill="#f5f5f5"/>
+    <path d="M${w*0.08} ${h*0.68} Q${w*0.1} ${h*0.55} ${w*0.25} ${h*0.5} L${w*0.65} ${h*0.42} Q${w*0.82} ${h*0.4} ${w*0.9} ${h*0.52} L${w*0.92} ${h*0.68} Z" fill="none" stroke="#e0e0e0" stroke-width="1"/>
+    <path d="M${w*0.25} ${h*0.5} Q${w*0.4} ${h*0.35} ${w*0.6} ${h*0.38} Q${w*0.75} ${h*0.38} ${w*0.82} ${h*0.45}" fill="none" stroke="#4caf50" stroke-width="${w*0.03}" stroke-linecap="round"/>
+    <ellipse cx="${w*0.2}" cy="${h*0.56}" rx="${w*0.06}" ry="${h*0.04}" fill="#e0e0e0"/>
+    <path d="M${w*0.08} ${h*0.65} L${w*0.92} ${h*0.65} L${w*0.92} ${h*0.72} Q${w*0.5} ${h*0.78} ${w*0.08} ${h*0.72} Z" fill="#4caf50"/>
+    ${[...Array(5)].map((_,i)=>`<line x1="${w*(0.28+i*0.12)}" y1="${h*0.55}" x2="${w*(0.28+i*0.12)}" y2="${h*0.65}" stroke="#f5f5f5" stroke-width="1.5" opacity="0.7"/>`).join('')}
+  </svg>`,
+
+  jacket: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="jk-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e3f2fd"/><stop offset="100%" stop-color="#bbdefb"/></linearGradient></defs>
+    <rect width="${w}" height="${h}" fill="url(#jk-bg)"/>
+    <path d="M${w*0.35} ${h*0.12} L${w*0.18} ${h*0.25} L${w*0.08} ${h*0.45} L${w*0.12} ${h*0.88} L${w*0.42} ${h*0.88} L${w*0.42} ${h*0.35} L${w*0.35} ${h*0.12} Z" fill="#1565c0"/>
+    <path d="M${w*0.65} ${h*0.12} L${w*0.82} ${h*0.25} L${w*0.92} ${h*0.45} L${w*0.88} ${h*0.88} L${w*0.58} ${h*0.88} L${w*0.58} ${h*0.35} L${w*0.65} ${h*0.12} Z" fill="#1565c0"/>
+    <path d="M${w*0.35} ${h*0.12} Q${w*0.5} ${h*0.08} ${w*0.65} ${h*0.12} L${w*0.58} ${h*0.35} L${w*0.42} ${h*0.35} Z" fill="#0d47a1"/>
+    <rect x="${w*0.42}" y="${h*0.35}" width="${w*0.16}" height="${h*0.53}" fill="#1976d2"/>
+    <line x1="${w*0.5}" y1="${h*0.35}" x2="${w*0.5}" y2="${h*0.88}" stroke="#1565c0" stroke-width="2"/>
+    ${[...Array(6)].map((_,i)=>`<circle cx="${w*0.5}" cy="${h*(0.4+i*0.08)}" r="${w*0.015}" fill="#90caf9"/>`).join('')}
+    <path d="M${w*0.35} ${h*0.12} L${w*0.28} ${h*0.18} L${w*0.32} ${h*0.28} L${w*0.42} ${h*0.28} L${w*0.42} ${h*0.35} L${w*0.35} ${h*0.12} Z" fill="#0d47a1"/>
+    <path d="M${w*0.65} ${h*0.12} L${w*0.72} ${h*0.18} L${w*0.68} ${h*0.28} L${w*0.58} ${h*0.28} L${w*0.58} ${h*0.35} L${w*0.65} ${h*0.12} Z" fill="#0d47a1"/>
+  </svg>`,
+
+  polo: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="pl-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fff8e1"/><stop offset="100%" stop-color="#ffe082"/></linearGradient></defs>
+    <rect width="${w}" height="${h}" fill="url(#pl-bg)"/>
+    <path d="M${w*0.3} ${h*0.1} L${w*0.12} ${h*0.22} L${w*0.06} ${h*0.5} L${w*0.1} ${h*0.88} L${w*0.45} ${h*0.88} L${w*0.45} ${h*0.3} L${w*0.3} ${h*0.1} Z" fill="#f57f17"/>
+    <path d="M${w*0.7} ${h*0.1} L${w*0.88} ${h*0.22} L${w*0.94} ${h*0.5} L${w*0.9} ${h*0.88} L${w*0.55} ${h*0.88} L${w*0.55} ${h*0.3} L${w*0.7} ${h*0.1} Z" fill="#f57f17"/>
+    <path d="M${w*0.3} ${h*0.1} Q${w*0.5} ${h*0.06} ${w*0.7} ${h*0.1} L${w*0.55} ${h*0.3} L${w*0.45} ${h*0.3} Z" fill="#e65100"/>
+    <rect x="${w*0.45}" y="${h*0.3}" width="${w*0.1}" height="${h*0.58}" fill="#ef6c00"/>
+    <rect x="${w*0.43}" y="${h*0.1}" width="${w*0.14}" height="${h*0.1}" rx="${w*0.03}" fill="#e65100"/>
+    ${[...Array(4)].map((_,i)=>`<circle cx="${w*0.5}" cy="${h*(0.35+i*0.1)}" r="${w*0.013}" fill="#fff" opacity="0.7"/>`).join('')}
+  </svg>`,
+
+  cargo: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="cg-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#efebe9"/><stop offset="100%" stop-color="#d7ccc8"/></linearGradient></defs>
+    <rect width="${w}" height="${h}" fill="url(#cg-bg)"/>
+    <rect x="${w*0.2}" y="${h*0.06}" width="${w*0.6}" height="${h*0.28}" rx="${w*0.04}" fill="#5d4037"/>
+    <rect x="${w*0.22}" y="${h*0.32}" width="${w*0.24}" height="${h*0.6}" rx="${w*0.03}" fill="#4e342e"/>
+    <rect x="${w*0.54}" y="${h*0.32}" width="${w*0.24}" height="${h*0.6}" rx="${w*0.03}" fill="#4e342e"/>
+    <line x1="${w*0.5}" y1="${h*0.06}" x2="${w*0.5}" y2="${h*0.35}" stroke="#3e2723" stroke-width="3"/>
+    <rect x="${w*0.08}" y="${h*0.38}" width="${w*0.14}" height="${h*0.14}" rx="${w*0.025}" fill="#795548"/>
+    <rect x="${w*0.78}" y="${h*0.38}" width="${w*0.14}" height="${h*0.14}" rx="${w*0.025}" fill="#795548"/>
+    <rect x="${w*0.1}" y="${h*0.62}" width="${w*0.1}" height="${h*0.14}" rx="${w*0.02}" fill="#795548"/>
+    <rect x="${w*0.8}" y="${h*0.62}" width="${w*0.1}" height="${h*0.14}" rx="${w*0.02}" fill="#795548"/>
+    <rect x="${w*0.46}" y="${h*0.08}" width="${w*0.08}" height="${h*0.12}" rx="${w*0.02}" fill="#8d6e63"/>
+  </svg>`,
+
+  watch: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialGradient id="wf-bg" cx="50%" cy="50%"><stop offset="0%" stop-color="#fff9c4"/><stop offset="100%" stop-color="#fff8e1"/></radialGradient></defs>
+    <rect width="${w}" height="${h}" fill="url(#wf-bg)"/>
+    <rect x="${w*0.42}" y="${h*0.04}" width="${w*0.16}" height="${h*0.2}" rx="${w*0.03}" fill="#5d4037"/>
+    <rect x="${w*0.42}" y="${h*0.76}" width="${w*0.16}" height="${h*0.2}" rx="${w*0.03}" fill="#5d4037"/>
+    <circle cx="${w/2}" cy="${h/2}" r="${w*0.3}" fill="#212121"/>
+    <circle cx="${w/2}" cy="${h/2}" r="${w*0.27}" fill="#1a1a2e"/>
+    <circle cx="${w/2}" cy="${h/2}" r="${w*0.24}" fill="#f5f5dc" opacity="0.95"/>
+    ${[...Array(12)].map((_,i)=>{const a=i*(Math.PI*2/12)-Math.PI/2;const r1=w*0.21,r2=w*(i%3===0?0.19:0.2);return `<line x1="${w/2+r2*Math.cos(a)}" y1="${h/2+r2*Math.sin(a)}" x2="${w/2+r1*Math.cos(a)}" y2="${h/2+r1*Math.sin(a)}" stroke="#555" stroke-width="${i%3===0?2:1}"/>`}).join('')}
+    <line x1="${w/2}" y1="${h/2}" x2="${w/2+w*0.14}" y2="${h/2-h*0.06}" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+    <line x1="${w/2}" y1="${h/2}" x2="${w/2}" y2="${h/2-h*0.16}" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="${w/2}" cy="${h/2}" r="${w*0.025}" fill="#c9a84c"/>
+    <rect x="${w*0.74}" y="${h*0.44}" width="${w*0.04}" height="${h*0.12}" rx="${w*0.015}" fill="#5d4037"/>
+  </svg>`,
+
+  wallet: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="wl-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fff3e0"/><stop offset="100%" stop-color="#ffe0b2"/></linearGradient></defs>
+    <rect width="${w}" height="${h}" fill="url(#wl-bg)"/>
+    <rect x="${w*0.1}" y="${h*0.28}" width="${w*0.8}" height="${h*0.52}" rx="${w*0.05}" fill="#5d4037"/>
+    <rect x="${w*0.12}" y="${h*0.3}" width="${w*0.76}" height="${h*0.48}" rx="${w*0.04}" fill="#6d4c41"/>
+    <rect x="${w*0.55}" y="${h*0.36}" width="${w*0.3}" height="${h*0.22}" rx="${w*0.04}" fill="#4e342e"/>
+    <circle cx="${w*0.72}" cy="${h*0.47}" r="${w*0.055}" fill="#795548"/>
+    <circle cx="${w*0.72}" cy="${h*0.47}" r="${w*0.03}" fill="#8d6e63"/>
+    <rect x="${w*0.15}" y="${h*0.44}" width="${w*0.32}" height="${h*0.04}" rx="${w*0.015}" fill="#8d6e63" opacity="0.6"/>
+    <rect x="${w*0.15}" y="${h*0.52}" width="${w*0.22}" height="${h*0.03}" rx="${w*0.01}" fill="#8d6e63" opacity="0.5"/>
+    <rect x="${w*0.15}" y="${h*0.58}" width="${w*0.28}" height="${h*0.03}" rx="${w*0.01}" fill="#8d6e63" opacity="0.5"/>
+    <rect x="${w*0.1}" y="${h*0.22}" width="${w*0.8}" height="${h*0.1}" rx="${w*0.03}" fill="#795548"/>
+  </svg>`,
+
+  sunglasses: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="sg-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e8eaf6"/><stop offset="100%" stop-color="#c5cae9"/></linearGradient></defs>
+    <rect width="${w}" height="${h}" fill="url(#sg-bg)"/>
+    <rect x="${w*0.04}" y="${h*0.44}" width="${w*0.25}" height="${h*0.1}" rx="${w*0.04}" fill="#1a237e"/>
+    <rect x="${w*0.71}" y="${h*0.44}" width="${w*0.25}" height="${h*0.1}" rx="${w*0.04}" fill="#1a237e"/>
+    <rect x="${w*0.44}" y="${h*0.46}" width="${w*0.12}" height="${h*0.06}" rx="${w*0.02}" fill="#3949ab"/>
+    <rect x="${w*0.12}" y="${h*0.36}" width="${w*0.34}" height="${h*0.26}" rx="${w*0.07}" fill="#1a237e"/>
+    <rect x="${w*0.14}" y="${h*0.38}" width="${w*0.3}" height="${h*0.22}" rx="${w*0.06}" fill="#3949ab" opacity="0.8"/>
+    <ellipse cx="${w*0.29}" cy="${h*0.49}" rx="${w*0.1}" ry="${h*0.07}" fill="#5c6bc0" opacity="0.4"/>
+    <rect x="${w*0.54}" y="${h*0.36}" width="${w*0.34}" height="${h*0.26}" rx="${w*0.07}" fill="#1a237e"/>
+    <rect x="${w*0.56}" y="${h*0.38}" width="${w*0.3}" height="${h*0.22}" rx="${w*0.06}" fill="#3949ab" opacity="0.8"/>
+    <ellipse cx="${w*0.71}" cy="${h*0.49}" rx="${w*0.1}" ry="${h*0.07}" fill="#5c6bc0" opacity="0.4"/>
+  </svg>`,
+
+  bag: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="bg-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fce4ec"/><stop offset="100%" stop-color="#f8bbd9"/></linearGradient></defs>
+    <rect width="${w}" height="${h}" fill="url(#bg-bg)"/>
+    <path d="M${w*0.35} ${h*0.3} Q${w*0.35} ${h*0.16} ${w*0.5} ${h*0.16} Q${w*0.65} ${h*0.16} ${w*0.65} ${h*0.3}" fill="none" stroke="#ad1457" stroke-width="${w*0.035}"/>
+    <rect x="${w*0.14}" y="${h*0.3}" width="${w*0.72}" height="${h*0.58}" rx="${w*0.05}" fill="#c2185b"/>
+    <rect x="${w*0.16}" y="${h*0.32}" width="${w*0.68}" height="${h*0.54}" rx="${w*0.04}" fill="#d81b60"/>
+    <rect x="${w*0.14}" y="${h*0.3}" width="${w*0.72}" height="${h*0.1}" rx="${w*0.05}" fill="#ad1457"/>
+    <rect x="${w*0.38}" y="${h*0.48}" width="${w*0.24}" height="${h*0.14}" rx="${w*0.04}" fill="#ad1457"/>
+    <circle cx="${w/2}" cy="${h*0.55}" r="${w*0.03}" fill="#f8bbd9"/>
+    <line x1="${w*0.25}" y1="${h*0.52}" x2="${w*0.25}" y2="${h*0.72}" stroke="#ad1457" stroke-width="1.5" opacity="0.6"/>
+    <line x1="${w*0.75}" y1="${h*0.52}" x2="${w*0.75}" y2="${h*0.72}" stroke="#ad1457" stroke-width="1.5" opacity="0.6"/>
+  </svg>`,
+
+  lamp: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialGradient id="lp-glow" cx="50%" cy="40%"><stop offset="0%" stop-color="#fffde7" stop-opacity="0.9"/><stop offset="100%" stop-color="#fff9c4" stop-opacity="0"/></radialGradient></defs>
+    <rect width="${w}" height="${h}" fill="#1a1a2e"/>
+    <ellipse cx="${w/2}" cy="${h*0.35}" rx="${w*0.38}" ry="${h*0.22}" fill="url(#lp-glow)"/>
+    <path d="M${w*0.28} ${h*0.42} L${w*0.38} ${h*0.22} L${w*0.62} ${h*0.22} L${w*0.72} ${h*0.42} Z" fill="#ffd54f"/>
+    <path d="M${w*0.28} ${h*0.42} L${w*0.38} ${h*0.22} L${w*0.62} ${h*0.22} L${w*0.72} ${h*0.42} Z" fill="none" stroke="#f9a825" stroke-width="1.5"/>
+    <ellipse cx="${w/2}" cy="${h*0.42}" rx="${w*0.22}" ry="${h*0.04}" fill="#f9a825"/>
+    <rect x="${w*0.46}" y="${h*0.42}" width="${w*0.08}" height="${h*0.38}" rx="${w*0.025}" fill="#616161"/>
+    <ellipse cx="${w/2}" cy="${h*0.82}" rx="${w*0.2}" ry="${h*0.04}" fill="#424242"/>
+    <ellipse cx="${w/2}" cy="${h*0.81}" rx="${w*0.18}" ry="${h*0.03}" fill="#616161"/>
+    <circle cx="${w/2}" cy="${h*0.3}" r="${w*0.06}" fill="#fffde7" opacity="0.9"/>
+    <circle cx="${w/2}" cy="${h*0.3}" r="${w*0.04}" fill="#fff9c4"/>
+    ${[...Array(8)].map((_,i)=>{const a=i*(Math.PI*2/8);const r=w*0.14;return `<line x1="${w/2}" y1="${h*0.3}" x2="${w/2+r*Math.cos(a)}" y2="${h*0.3+r*Math.sin(a)}" stroke="#ffd54f" stroke-width="1" opacity="0.4"/>`}).join('')}
+  </svg>`,
+
+  candle: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialGradient id="cn-bg" cx="50%" cy="20%"><stop offset="0%" stop-color="#fff9c4"/><stop offset="100%" stop-color="#fff8e1"/></radialGradient></defs>
+    <rect width="${w}" height="${h}" fill="#1a1a2e"/>
+    <rect x="${w*0.3}" y="${h*0.35}" width="${w*0.4}" height="${h*0.5}" rx="${w*0.04}" fill="#ef9a9a"/>
+    <rect x="${w*0.32}" y="${h*0.37}" width="${w*0.36}" height="${h*0.46}" rx="${w*0.03}" fill="#ef5350" opacity="0.7"/>
+    <rect x="${w*0.28}" y="${h*0.58}" width="${w*0.44}" height="${h*0.1}" rx="${w*0.02}" fill="#c62828" opacity="0.5"/>
+    <rect x="${w*0.48}" y="${h*0.22}" width="${w*0.04}" height="${h*0.15}" rx="${w*0.015}" fill="#795548"/>
+    <ellipse cx="${w*0.5}" cy="${h*0.2}" rx="${w*0.04}" ry="${h*0.06}" fill="#ff9800" opacity="0.9"/>
+    <ellipse cx="${w*0.5}" cy="${h*0.18}" rx="${w*0.025}" ry="${h*0.04}" fill="#ffeb3b" opacity="0.95"/>
+    <ellipse cx="${w*0.5}" cy="${h*0.17}" rx="${w*0.015}" ry="${h*0.025}" fill="#fff9c4"/>
+    <ellipse cx="${w/2}" cy="${h*0.35}" rx="${w*0.22}" ry="${h*0.04}" fill="#fff" opacity="0.6"/>
+    <text x="${w/2}" y="${h*0.75}" text-anchor="middle" font-size="${w*0.07}" fill="#fff" font-family="Arial" opacity="0.6">SOY</text>
+  </svg>`,
+
+  plant: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="pt-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e8f5e9"/><stop offset="100%" stop-color="#c8e6c9"/></linearGradient></defs>
+    <rect width="${w}" height="${h}" fill="url(#pt-bg)"/>
+    <rect x="${w*0.3}" y="${h*0.6}" width="${w*0.4}" height="${h*0.3}" rx="${w*0.04}" fill="#8d6e63"/>
+    <rect x="${w*0.28}" y="${h*0.58}" width="${w*0.44}" height="${h*0.08}" rx="${w*0.03}" fill="#6d4c41"/>
+    <ellipse cx="${w/2}" cy="${h*0.42}" rx="${w*0.28}" ry="${h*0.24}" fill="#2e7d32" opacity="0.8"/>
+    <ellipse cx="${w*0.34}" cy="${h*0.36}" rx="${w*0.22}" ry="${h*0.18}" fill="#388e3c" opacity="0.9"/>
+    <ellipse cx="${w*0.66}" cy="${h*0.38}" rx="${w*0.2}" ry="${h*0.16}" fill="#43a047" opacity="0.9"/>
+    <ellipse cx="${w*0.5}" cy="${h*0.28}" rx="${w*0.16}" ry="${h*0.14}" fill="#4caf50"/>
+    <line x1="${w*0.5}" y1="${h*0.58}" x2="${w*0.5}" y2="${h*0.38}" stroke="#2e7d32" stroke-width="2.5"/>
+    <line x1="${w*0.5}" y1="${h*0.52}" x2="${w*0.36}" y2="${h*0.42}" stroke="#388e3c" stroke-width="2"/>
+    <line x1="${w*0.5}" y1="${h*0.46}" x2="${w*0.64}" y2="${h*0.38}" stroke="#388e3c" stroke-width="2"/>
+  </svg>`,
+
+  purifier: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="pu-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e0f7fa"/><stop offset="100%" stop-color="#b2ebf2"/></linearGradient></defs>
+    <rect width="${w}" height="${h}" fill="url(#pu-bg)"/>
+    <rect x="${w*0.24}" y="${h*0.12}" width="${w*0.52}" height="${h*0.76}" rx="${w*0.08}" fill="#37474f"/>
+    <rect x="${w*0.26}" y="${h*0.14}" width="${w*0.48}" height="${h*0.72}" rx="${w*0.07}" fill="#455a64"/>
+    <rect x="${w*0.3}" y="${h*0.18}" width="${w*0.4}" height="${h*0.6}" rx="${w*0.05}" fill="#546e7a"/>
+    <circle cx="${w/2}" cy="${h*0.45}" r="${w*0.14}" fill="#00bcd4" opacity="0.3"/>
+    <circle cx="${w/2}" cy="${h*0.45}" r="${w*0.1}" fill="#00bcd4" opacity="0.5"/>
+    <circle cx="${w/2}" cy="${h*0.45}" r="${w*0.06}" fill="#00e5ff" opacity="0.8"/>
+    ${[...Array(4)].map((_,i)=>{const a=i*(Math.PI*2/4);const r=w*0.14;return `<ellipse cx="${w/2+r*Math.cos(a)}" cy="${h*0.45+r*0.8*Math.sin(a)}" rx="${w*0.018}" ry="${h*0.012}" fill="#80deea" opacity="0.6" transform="rotate(${a*180/Math.PI},${w/2+r*Math.cos(a)},${h*0.45+r*0.8*Math.sin(a)})"/>`}).join('')}
+    <rect x="${w*0.38}" y="${h*0.7}" width="${w*0.24}" height="${h*0.05}" rx="${w*0.02}" fill="#00acc1"/>
+    <circle cx="${w*0.44}" cy="${h*0.725}" r="${w*0.02}" fill="#00e5ff"/>
+    <circle cx="${w*0.56}" cy="${h*0.725}" r="${w*0.02}" fill="#4caf50"/>
+  </svg>`,
+
+  runshoes: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="rs-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fce4ec"/><stop offset="100%" stop-color="#f8bbd9"/></linearGradient></defs>
+    <rect width="${w}" height="${h}" fill="url(#rs-bg)"/>
+    <ellipse cx="${w*0.5}" cy="${h*0.74}" rx="${w*0.43}" ry="${h*0.1}" fill="#bdbdbd" opacity="0.5"/>
+    <path d="M${w*0.06} ${h*0.7} Q${w*0.08} ${h*0.56} ${w*0.22} ${h*0.5} L${w*0.68} ${h*0.4} Q${w*0.84} ${h*0.38} ${w*0.92} ${h*0.5} L${w*0.94} ${h*0.7} Z" fill="#e91e63"/>
+    <path d="M${w*0.06} ${h*0.7} Q${w*0.08} ${h*0.56} ${w*0.22} ${h*0.5} L${w*0.68} ${h*0.4} Q${w*0.84} ${h*0.38} ${w*0.92} ${h*0.5} L${w*0.94} ${h*0.7} Z" fill="none" stroke="#c2185b" stroke-width="1"/>
+    <path d="M${w*0.22} ${h*0.5} Q${w*0.38} ${h*0.34} ${w*0.6} ${h*0.36} Q${w*0.76} ${h*0.36} ${w*0.84} ${h*0.44}" fill="none" stroke="#fff" stroke-width="${w*0.03}" stroke-linecap="round" opacity="0.8"/>
+    <path d="M${w*0.06} ${h*0.66} L${w*0.94} ${h*0.66} L${w*0.94} ${h*0.74} Q${w*0.5} ${h*0.8} ${w*0.06} ${h*0.74} Z" fill="#f06292"/>
+    ${[...Array(5)].map((_,i)=>`<line x1="${w*(0.26+i*0.12)}" y1="${h*0.56}" x2="${w*(0.26+i*0.12)}" y2="${h*0.66}" stroke="#fff" stroke-width="1.5" opacity="0.6"/>`).join('')}
+    <ellipse cx="${w*0.2}" cy="${h*0.56}" rx="${w*0.065}" ry="${h*0.045}" fill="#c2185b" opacity="0.7"/>
+  </svg>`,
+
+  yogamat: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="ym-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f3e5f5"/><stop offset="100%" stop-color="#e1bee7"/></linearGradient></defs>
+    <rect width="${w}" height="${h}" fill="url(#ym-bg)"/>
+    <rect x="${w*0.08}" y="${h*0.36}" width="${w*0.84}" height="${h*0.3}" rx="${w*0.04}" fill="#7b1fa2"/>
+    <rect x="${w*0.1}" y="${h*0.38}" width="${w*0.8}" height="${h*0.26}" rx="${w*0.03}" fill="#9c27b0" opacity="0.85"/>
+    ${[...Array(6)].map((_,i)=>`<rect x="${w*(0.13+i*0.13)}" y="${h*0.38}" width="${w*0.01}" height="${h*0.26}" fill="#7b1fa2" opacity="0.5"/>`).join('')}
+    <ellipse cx="${w*0.12}" cy="${h*0.5}" rx="${w*0.05}" ry="${h*0.14}" fill="#7b1fa2"/>
+    <ellipse cx="${w*0.12}" cy="${h*0.5}" rx="${w*0.04}" ry="${h*0.12}" fill="#6a1b9a"/>
+    <ellipse cx="${w*0.88}" cy="${h*0.5}" rx="${w*0.05}" ry="${h*0.14}" fill="#7b1fa2"/>
+    <ellipse cx="${w*0.88}" cy="${h*0.5}" rx="${w*0.04}" ry="${h*0.12}" fill="#6a1b9a"/>
+    <text x="${w/2}" y="${h*0.52}" text-anchor="middle" font-size="${w*0.08}" fill="#f3e5f5" font-family="Arial" font-weight="bold" opacity="0.7">YOGA</text>
+  </svg>`,
+
+  book1: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="bk1-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e8eaf6"/><stop offset="100%" stop-color="#c5cae9"/></linearGradient></defs>
+    <rect width="${w}" height="${h}" fill="url(#bk1-bg)"/>
+    <rect x="${w*0.18}" y="${h*0.1}" width="${w*0.64}" height="${h*0.8}" rx="${w*0.04}" fill="#283593"/>
+    <rect x="${w*0.2}" y="${h*0.12}" width="${w*0.6}" height="${h*0.76}" rx="${w*0.03}" fill="#3949ab"/>
+    <rect x="${w*0.18}" y="${h*0.1}" width="${w*0.08}" height="${h*0.8}" rx="${w*0.03}" fill="#1a237e"/>
+    <rect x="${w*0.32}" y="${h*0.25}" width="${w*0.42}" height="${h*0.06}" rx="${w*0.02}" fill="#9fa8da"/>
+    <rect x="${w*0.32}" y="${h*0.35}" width="${w*0.35}" height="${h*0.04}" rx="${w*0.015}" fill="#7986cb" opacity="0.8"/>
+    <rect x="${w*0.32}" y="${h*0.43}" width="${w*0.38}" height="${h*0.025}" rx="${w*0.01}" fill="#7986cb" opacity="0.6"/>
+    <rect x="${w*0.32}" y="${h*0.48}" width="${w*0.3}" height="${h*0.025}" rx="${w*0.01}" fill="#7986cb" opacity="0.6"/>
+    <rect x="${w*0.32}" y="${h*0.53}" width="${w*0.36}" height="${h*0.025}" rx="${w*0.01}" fill="#7986cb" opacity="0.6"/>
+    <rect x="${w*0.28}" y="${h*0.65}" width="${w*0.46}" height="${h*0.12}" rx="${w*0.03}" fill="#1a237e"/>
+    <text x="${w*0.5}" y="${h*0.73}" text-anchor="middle" font-size="${w*0.07}" fill="#c5cae9" font-family="Arial" font-weight="bold">DESIGN</text>
+  </svg>`,
+
+  book2: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="bk2-bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e8f5e9"/><stop offset="100%" stop-color="#c8e6c9"/></linearGradient></defs>
+    <rect width="${w}" height="${h}" fill="url(#bk2-bg)"/>
+    <rect x="${w*0.18}" y="${h*0.1}" width="${w*0.64}" height="${h*0.8}" rx="${w*0.04}" fill="#1b5e20"/>
+    <rect x="${w*0.2}" y="${h*0.12}" width="${w*0.6}" height="${h*0.76}" rx="${w*0.03}" fill="#2e7d32"/>
+    <rect x="${w*0.18}" y="${h*0.1}" width="${w*0.08}" height="${h*0.8}" rx="${w*0.03}" fill="#1b5e20"/>
+    <rect x="${w*0.32}" y="${h*0.2}" width="${w*0.4}" height="${h*0.07}" rx="${w*0.025}" fill="#a5d6a7"/>
+    <rect x="${w*0.32}" y="${h*0.32}" width="${w*0.38}" height="${h*0.04}" rx="${w*0.015}" fill="#81c784" opacity="0.8"/>
+    <path d="M${w*0.38} ${h*0.46} L${w*0.5} ${h*0.56} L${w*0.62} ${h*0.46}" fill="none" stroke="#a5d6a7" stroke-width="2.5"/>
+    <path d="M${w*0.38} ${h*0.52} L${w*0.5} ${h*0.62} L${w*0.62} ${h*0.52}" fill="none" stroke="#81c784" stroke-width="2"/>
+    <rect x="${w*0.3}" y="${h*0.68}" width="${w*0.42}" height="${h*0.1}" rx="${w*0.025}" fill="#1b5e20"/>
+    <text x="${w*0.5}" y="${h*0.75}" text-anchor="middle" font-size="${w*0.065}" fill="#c8e6c9" font-family="Arial" font-weight="bold">STARTUP</text>
+  </svg>`
+};
+
+/* Category art */
+const CAT_ART = {
+  all: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <rect width="${w}" height="${h}" fill="#f3e5f5" rx="${w*0.15}"/>
+    <circle cx="${w*0.3}" cy="${h*0.35}" r="${w*0.18}" fill="#9c27b0" opacity="0.7"/>
+    <rect x="${w*0.48}" y="${h*0.18}" width="${w*0.34}" height="${h*0.34}" rx="${w*0.05}" fill="#1565c0" opacity="0.7"/>
+    <ellipse cx="${w*0.5}" cy="${h*0.72}" rx="${w*0.32}" ry="${h*0.16}" fill="#2e7d32" opacity="0.7"/>
+  </svg>`,
+  electronics: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <rect width="${w}" height="${h}" fill="#e3f2fd" rx="${w*0.15}"/>
+    <rect x="${w*0.28}" y="${h*0.18}" width="${w*0.44}" height="${h*0.56}" rx="${w*0.06}" fill="#1565c0"/>
+    <rect x="${w*0.3}" y="${h*0.22}" width="${w*0.4}" height="${h*0.48}" rx="${w*0.04}" fill="#1976d2"/>
+    <rect x="${w*0.34}" y="${h*0.28}" width="${w*0.32}" height="${h*0.36}" rx="${w*0.02}" fill="#0d47a1"/>
+    <circle cx="${w/2}" cy="${h*0.82}" r="${w*0.05}" fill="#42a5f5"/>
+    <line x1="${w*0.4}" y1="${h*0.74}" x2="${w*0.6}" y2="${h*0.74}" stroke="#42a5f5" stroke-width="2"/>
+  </svg>`,
+  fashion: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <rect width="${w}" height="${h}" fill="#fce4ec" rx="${w*0.15}"/>
+    <path d="M${w*0.3} ${h*0.15} L${w*0.12} ${h*0.3} L${w*0.12} ${h*0.82} L${w*0.42} ${h*0.82} L${w*0.42} ${h*0.4} L${w*0.3} ${h*0.15}Z" fill="#e91e63"/>
+    <path d="M${w*0.7} ${h*0.15} L${w*0.88} ${h*0.3} L${w*0.88} ${h*0.82} L${w*0.58} ${h*0.82} L${w*0.58} ${h*0.4} L${w*0.7} ${h*0.15}Z" fill="#e91e63"/>
+    <path d="M${w*0.3} ${h*0.15} Q${w*0.5} ${h*0.1} ${w*0.7} ${h*0.15} L${w*0.58} ${h*0.4} L${w*0.42} ${h*0.4}Z" fill="#c2185b"/>
+    <rect x="${w*0.42}" y="${h*0.4}" width="${w*0.16}" height="${h*0.42}" fill="#d81b60"/>
+  </svg>`,
+  accessories: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <rect width="${w}" height="${h}" fill="#fff9c4" rx="${w*0.15}"/>
+    <circle cx="${w/2}" cy="${h/2}" r="${w*0.3}" fill="#212121"/>
+    <circle cx="${w/2}" cy="${h/2}" r="${w*0.26}" fill="#1a1a2e"/>
+    <circle cx="${w/2}" cy="${h/2}" r="${w*0.22}" fill="#f5f5dc" opacity="0.9"/>
+    ${[...Array(12)].map((_,i)=>{const a=i*(Math.PI*2/12)-Math.PI/2;return `<line x1="${w/2+w*0.18*Math.cos(a)}" y1="${h/2+h*0.18*Math.sin(a)}" x2="${w/2+w*0.21*Math.cos(a)}" y2="${h/2+h*0.21*Math.sin(a)}" stroke="#555" stroke-width="${i%3===0?2:1}"/>`}).join('')}
+    <line x1="${w/2}" y1="${h/2}" x2="${w/2+w*0.13}" y2="${h/2-h*0.05}" stroke="#333" stroke-width="1.5"/>
+    <line x1="${w/2}" y1="${h/2}" x2="${w/2}" y2="${h/2-h*0.14}" stroke="#333" stroke-width="1.2"/>
+    <circle cx="${w/2}" cy="${h/2}" r="${w*0.02}" fill="#c9a84c"/>
+  </svg>`,
+  home: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <rect width="${w}" height="${h}" fill="#e8f5e9" rx="${w*0.15}"/>
+    <path d="M${w/2} ${h*0.12} L${w*0.85} ${h*0.45} L${w*0.78} ${h*0.45} L${w*0.78} ${h*0.86} L${w*0.22} ${h*0.86} L${w*0.22} ${h*0.45} L${w*0.15} ${h*0.45} Z" fill="#2e7d32"/>
+    <rect x="${w*0.4}" y="${h*0.6}" width="${w*0.2}" height="${h*0.26}" rx="${w*0.02}" fill="#1b5e20"/>
+    <rect x="${w*0.26}" y="${h*0.5}" width="${w*0.18}" height="${h*0.18}" rx="${w*0.02}" fill="#4caf50" opacity="0.7"/>
+    <rect x="${w*0.56}" y="${h*0.5}" width="${w*0.18}" height="${h*0.18}" rx="${w*0.02}" fill="#4caf50" opacity="0.7"/>
+  </svg>`,
+  sports: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <rect width="${w}" height="${h}" fill="#fce4ec" rx="${w*0.15}"/>
+    <ellipse cx="${w*0.5}" cy="${h*0.62}" rx="${w*0.42}" ry="${h*0.09}" fill="#bdbdbd" opacity="0.4"/>
+    <path d="M${w*0.08} ${h*0.62} Q${w*0.1} ${h*0.48} ${w*0.24} ${h*0.42} L${w*0.68} ${h*0.34} Q${w*0.84} ${h*0.32} ${w*0.92} ${h*0.44} L${w*0.94} ${h*0.62} Z" fill="#f06292"/>
+    <path d="M${w*0.24} ${h*0.42} Q${w*0.4} ${h*0.28} ${w*0.6} ${h*0.3} Q${w*0.76} ${h*0.3} ${w*0.84} ${h*0.38}" fill="none" stroke="#fff" stroke-width="${w*0.03}" stroke-linecap="round" opacity="0.8"/>
+    <path d="M${w*0.08} ${h*0.58} L${w*0.94} ${h*0.58} L${w*0.94} ${h*0.66} Q${w*0.5} ${h*0.72} ${w*0.08} ${h*0.66} Z" fill="#e91e63"/>
+  </svg>`,
+  books: (w,h) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <rect width="${w}" height="${h}" fill="#e8eaf6" rx="${w*0.15}"/>
+    <rect x="${w*0.16}" y="${h*0.16}" width="${w*0.22}" height="${h*0.68}" rx="${w*0.03}" fill="#3f51b5"/>
+    <rect x="${w*0.4}" y="${h*0.22}" width="${w*0.22}" height="${h*0.62}" rx="${w*0.03}" fill="#9c27b0"/>
+    <rect x="${w*0.63}" y="${h*0.16}" width="${w*0.2}" height="${h*0.68}" rx="${w*0.03}" fill="#e91e63"/>
+    <rect x="${w*0.16}" y="${h*0.82}" width="${w*0.67}" height="${h*0.06}" rx="${w*0.02}" fill="#1a237e" opacity="0.4"/>
+  </svg>`
+};
+
+/* Inject all category art */
+function renderCatArt(){
+  Object.entries(CAT_ART).forEach(([k,fn])=>{const el=document.getElementById('cat-art-'+k);if(el)el.innerHTML=fn(72,72);});
+  const hr=document.getElementById('hero-r');
+  if(hr){
+    const heroProds=[PART.smartwatch,PART.sneakers,PART.headphones];
+    const h1=document.createElement('div');h1.className='hero-art-item';h1.style.cssText=`height:200px;grid-row:span 2;`;h1.innerHTML=heroProds[0](200,200);hr.appendChild(h1);
+    const h2=document.createElement('div');h2.className='hero-art-item';h2.style.cssText=`height:95px;`;h2.innerHTML=heroProds[1](200,95);hr.appendChild(h2);
+    const h3=document.createElement('div');h3.className='hero-art-item';h3.style.cssText=`height:95px;`;h3.innerHTML=heroProds[2](200,95);hr.appendChild(h3);
+  }
+}
+
+const PRODUCTS=[
+  {id:1,name:'Wireless Earbuds Pro',cat:'electronics',artFn:'earbuds',price:1499,oldPrice:2999,rating:4.8,reviews:2847,desc:'Active noise cancellation, 30hr battery, IPX5 waterproof',badge:'sale'},
+  {id:2,name:'Smart Watch Series 5',cat:'electronics',artFn:'smartwatch',price:3999,oldPrice:6999,rating:4.9,reviews:1204,desc:'AMOLED display, health tracking, GPS, 7-day battery',badge:'sale'},
+  {id:3,name:'Over-Ear Headphones',cat:'electronics',artFn:'headphones',price:2999,oldPrice:null,rating:4.7,reviews:986,desc:'Hi-Fi sound, 40hr playtime, foldable design',badge:'new'},
+  {id:4,name:'Mechanical Keyboard',cat:'electronics',artFn:'keyboard',price:2499,oldPrice:3499,rating:4.6,reviews:743,desc:'RGB backlit, tactile switches, full aluminum body',badge:'sale'},
+  {id:5,name:'Classic Sneakers',cat:'fashion',artFn:'sneakers',price:1899,oldPrice:2999,rating:4.8,reviews:3241,desc:'Leather upper, cushioned sole, timeless design',badge:'sale'},
+  {id:6,name:'Denim Jacket',cat:'fashion',artFn:'jacket',price:1299,oldPrice:null,rating:4.5,reviews:628,desc:'100% cotton denim, relaxed fit, multiple pockets',badge:'new'},
+  {id:7,name:'Premium Polo Shirt',cat:'fashion',artFn:'polo',price:699,oldPrice:999,rating:4.4,reviews:1892,desc:'Pique cotton, slim fit, available in 8 colours',badge:'sale'},
+  {id:8,name:'Cargo Trousers',cat:'fashion',artFn:'cargo',price:1299,oldPrice:1899,rating:4.6,reviews:945,desc:'Multi-pocket design, tapered fit, stretch fabric',badge:'sale'},
+  {id:9,name:'Minimalist Watch',cat:'accessories',artFn:'watch',price:3499,oldPrice:null,rating:4.9,reviews:512,desc:'Sapphire crystal glass, genuine leather strap',badge:'new'},
+  {id:10,name:'Leather Wallet',cat:'accessories',artFn:'wallet',price:799,oldPrice:1299,rating:4.5,reviews:2103,desc:'Full-grain leather, RFID blocking, slim bifold',badge:'sale'},
+  {id:11,name:'Polarized Sunglasses',cat:'accessories',artFn:'sunglasses',price:999,oldPrice:null,rating:4.7,reviews:887,desc:'UV400 protection, polarised lens, titanium frame',badge:null},
+  {id:12,name:'Crossbody Bag',cat:'accessories',artFn:'bag',price:1599,oldPrice:2499,rating:4.6,reviews:432,desc:'Genuine leather, adjustable strap, multiple compartments',badge:'sale'},
+  {id:13,name:'Minimalist Desk Lamp',cat:'home',artFn:'lamp',price:899,oldPrice:1499,rating:4.6,reviews:1567,desc:'LED, adjustable colour temperature, USB charging port',badge:'sale'},
+  {id:14,name:'Scented Soy Candles',cat:'home',artFn:'candle',price:349,oldPrice:null,rating:4.4,reviews:2891,desc:'Natural soy wax, 45hr burn time, luxury fragrance',badge:null},
+  {id:15,name:'Monstera Plant Pot',cat:'home',artFn:'plant',price:599,oldPrice:899,rating:4.7,reviews:743,desc:'Ceramic pot with drainage hole, includes saucer',badge:'sale'},
+  {id:16,name:'Air Purifier',cat:'home',artFn:'purifier',price:3499,oldPrice:null,rating:4.8,reviews:329,desc:'HEPA H13 filter, 400 sq ft coverage, whisper quiet',badge:'new'},
+  {id:17,name:'Running Shoes',cat:'sports',artFn:'runshoes',price:2499,oldPrice:3999,rating:4.7,reviews:4215,desc:'Carbon plate, engineered mesh upper, responsive foam',badge:'sale'},
+  {id:18,name:'Yoga Mat Premium',cat:'sports',artFn:'yogamat',price:699,oldPrice:null,rating:4.6,reviews:1834,desc:'6mm thick, non-slip surface, eco-friendly TPE',badge:'new'},
+  {id:19,name:'Design Principles',cat:'books',artFn:'book1',price:499,oldPrice:799,rating:4.7,reviews:2341,desc:'The definitive guide to visual communication & UX design',badge:'sale'},
+  {id:20,name:'The Startup Way',cat:'books',artFn:'book2',price:399,oldPrice:null,rating:4.5,reviews:1092,desc:'How modern companies use entrepreneurial management',badge:null},
+];
+
+function starsHtml(r){const full=Math.floor(r);let s='';for(let i=0;i<5;i++)s+=`<span class="s" style="opacity:${i<full?1:0.3}">★</span>`;return s;}
+
+let cart={};
+const getCount=()=>Object.values(cart).reduce((a,b)=>a+b,0);
+const getSub=()=>{let s=0;Object.entries(cart).forEach(([id,q])=>{const p=PRODUCTS.find(x=>x.id===+id);if(p)s+=p.price*q;});return s;};
+
+function updateCartUI(){
+  const n=getCount(),sub=getSub(),tot=sub+99;
+  const btn=document.getElementById('cartbtn'),bc=document.getElementById('cbc');
+  bc.textContent=n;bc.classList.add('bump');setTimeout(()=>bc.classList.remove('bump'),300);
+  btn.classList.toggle('hi',n>0);
+  document.getElementById('cdhs').textContent=n===0?'Your bag is empty':`${n} item${n>1?'s':''} in bag`;
+  const body=document.getElementById('cdb'),foot=document.getElementById('cdf');
+  if(n===0){body.innerHTML='<div class="cde"><div class="cei">🛍️</div><h4>Your bag is empty</h4><p>Discover products above</p><button class="cde-btn" onclick="closeCart()">Start Shopping</button></div>';foot.style.display='none';return;}
+  foot.style.display='block';
+  let html='';
+  Object.entries(cart).filter(([,q])=>q>0).forEach(([id,q])=>{
+    const p=PRODUCTS.find(x=>x.id===+id);if(!p)return;
+    const artFn=PART[p.artFn];
+    html+=`<div class="cit"><div class="cit-art">${artFn?artFn(62,62):''}</div><div class="cit-info"><div class="cit-n">${p.name}</div><div class="cit-c">${p.cat}</div><div class="cit-p">₹${p.price*q}</div></div><div class="cit-qty"><button class="cqb" onclick="cqty(${p.id},-1)">−</button><span class="cqn">${q}</span><button class="cqb" onclick="cqty(${p.id},1)">+</button></div></div>`;
+  });
+  body.innerHTML=html;
+  document.getElementById('cst').textContent='₹'+sub;
+  document.getElementById('ctot').textContent='₹'+tot;
+  document.getElementById('bpoi').textContent=n+' item'+(n>1?'s':'');
+  document.getElementById('bpot').textContent='₹'+tot+' →';
+}
+
+function addToCart(id){cart[id]=(cart[id]||0)+1;updateCartUI();uBtn(id);showToast('🛍️ '+PRODUCTS.find(x=>x.id===id).name+' added to bag!');}
+function cqty(id,d){cart[id]=(cart[id]||0)+d;if(cart[id]<=0)delete cart[id];updateCartUI();uBtn(id);}
+function uBtn(id){const ab=document.getElementById('add-'+id),qc=document.getElementById('qty-'+id),qn=document.getElementById('qn-'+id);if(!ab)return;const q=cart[id]||0;if(q>0){ab.style.display='none';qc.classList.add('show');qn.textContent=q;}else{ab.style.display='flex';qc.classList.remove('show');}}
+
+let curCat='all',curSearch='',curFilter='all';
+function renderGrid(items){
+  const g=document.getElementById('pg');
+  document.getElementById('pcount').textContent=items.length+' product'+(items.length!==1?'s':'');
+  if(!items.length){g.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--mu)">😔 No products found</div>';return;}
+  g.innerHTML=items.map((p,i)=>{
+    const artFn=PART[p.artFn];
+    const disc=p.oldPrice?Math.round((1-p.price/p.oldPrice)*100):0;
+    return `<div class="pc" style="animation-delay:${i*.04}s">
+      ${p.badge==='new'?'<div class="pc-new">NEW</div>':p.badge==='sale'?'<div class="pc-sale">SALE</div>':''}
+      <button class="pc-wish" id="pw-${p.id}" onclick="toggleWish(${p.id},this)">🤍</button>
+      <div class="pc-art">${artFn?artFn(280,220):''}
+        <div class="pc-over"><button class="poc-btn" onclick="addToCart(${p.id})">+ Add to Bag</button></div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-cat">${p.cat}</div>
+        <div class="pc-name">${p.name}</div>
+        <p class="pc-desc">${p.desc}</p>
+        <div class="pc-stars">${starsHtml(p.rating)}<span style="margin-left:4px;font-size:.68rem;color:var(--mu)">(${p.reviews.toLocaleString()})</span></div>
+        <div class="pc-price-row">
+          <span class="pc-price">₹${p.price.toLocaleString()}</span>
+          ${p.oldPrice?`<span class="pc-old">₹${p.oldPrice.toLocaleString()}</span><span class="pc-off">${disc}% off</span>`:''}
+        </div>
+        <div style="display:flex;gap:6px;">
+          <button class="pc-add" id="add-${p.id}" onclick="addToCart(${p.id})"><span>+ Add to Bag</span></button>
+          <div class="pc-qty" id="qty-${p.id}">
+            <button class="pqb" onclick="cqty(${p.id},-1)">−</button>
+            <span class="pqn" id="qn-${p.id}">1</span>
+            <button class="pqb" onclick="cqty(${p.id},1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function applyF(){let items=PRODUCTS;if(curCat!=='all')items=items.filter(p=>p.cat===curCat);if(curSearch)items=items.filter(p=>p.name.toLowerCase().includes(curSearch)||p.desc.toLowerCase().includes(curSearch)||p.cat.toLowerCase().includes(curSearch));if(curFilter==='new')items=items.filter(p=>p.badge==='new');if(curFilter==='sale')items=items.filter(p=>p.badge==='sale');if(curFilter==='under999')items=items.filter(p=>p.price<999);if(curFilter==='rated')items=items.filter(p=>p.rating>=4.7);renderGrid(items);setTimeout(()=>Object.keys(cart).forEach(id=>uBtn(+id)),60);}
+function filterCat(el,cat){document.querySelectorAll('.cp').forEach(b=>b.classList.remove('active'));el.classList.add('active');curCat=cat;const t={all:'All Products',electronics:'📱 Electronics',fashion:'👗 Fashion',accessories:'⌚ Accessories',home:'🏠 Home',sports:'🏃 Sports',books:'📚 Books'};document.getElementById('ptitle').textContent=t[cat]||'All Products';applyF();}
+function toggleF(el,type){document.querySelectorAll('.fchip').forEach(b=>b.classList.remove('active'));el.classList.add('active');curFilter=type;applyF();}
+function doSearch(v){curSearch=v.toLowerCase().trim();applyF();}
+function openCart(){document.getElementById('cov').classList.add('open');document.getElementById('cdr').classList.add('open');document.body.style.overflow='hidden';}
+function closeCart(){document.getElementById('cov').classList.remove('open');document.getElementById('cdr').classList.remove('open');document.body.style.overflow='';}
+function placeOrder(){if(!getCount())return;closeCart();document.getElementById('moid').textContent='ORDER #SM'+String(Math.floor(Math.random()*99999)).padStart(5,'0');document.getElementById('mov').classList.add('open');cart={};updateCartUI();}
+function closeMod(){document.getElementById('mov').classList.remove('open');}
+function toggleWish(id,btn){if(!btn)btn=document.getElementById('pw-'+id);if(!btn)return;btn.classList.toggle('on');btn.textContent=btn.classList.contains('on')?'❤️':'🤍';showToast(btn.classList.contains('on')?'❤️ Saved to wishlist!':'💔 Removed from wishlist');}
+let tt;function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2500);}
+const ro=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('on');ro.unobserve(x.target);}});},{threshold:.08});
+document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
+
+renderCatArt();
+applyF();
+</script>
+</body>
+</html>
